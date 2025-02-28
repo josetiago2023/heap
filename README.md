@@ -30,12 +30,227 @@ Dentro de Heap existem dois tipos com estruturas diferentes, o Heap Máximo e He
 
 ### Tipos de Heap
 #### Heap Máximo
-No Heap Máximo é onde a estrutura de Árvore Binária contará com os nós maiores valores sempre em cima
+No Heap Máximo é onde a estrutura de Árvore Binária contará com os nós maiores valores sempre em cima.
 
+```js
+class MaxHeap {
+    constructor() {
+      this.heap = []
+    }
+  
+    getLeftIndex(index) {
+        return 2 * index + 1 // Obter o índice do filho esquerdo
+    }
+  
+    getRightIndex(index) {
+      return 2 * index + 2 // Obter o índice do filho direito
+    }
+  
+    
+    getParentIndex(index) {
+      if (index === 0) {
+        return undefined
+      }
+      return Math.floor((index - 1) / 2) // Obter o índice do pai
+    }
+  
+    // Função para comparar os valores no heap (positivo sobe)
+    compareFn(a, b) {
+      return b - a // 
+    }
+  
+    // Após inserir o elemento precisamos comparar o elemento, se for maior sobe (siftUp)
+    siftUp(index) {
+      let parent = this.getParentIndex(index)
+      while (
+        index > 0 &&
+        this.compareFn(this.heap[parent], this.heap[index]) < 0 // Troca para MaxHeap
+      ) {
+        this.swap(this.heap, parent, index)
+        index = parent
+        parent = this.getParentIndex(index)
+      }
+    }
+  
+    // Descer um elemento na árvore (apos remover)
+    siftDown(index) {
+      let element = index
+      const left = this.getLeftIndex(index)
+      const right = this.getRightIndex(index)
+      const size = this.heap.length
+  
+      // Comparar com o filho esquerdo
+      if (
+        left < size &&
+        this.compareFn(this.heap[element], this.heap[left]) < 0 // Troca para MaxHeap
+      ) {
+        element = left
+      }
+  
+      // Comparar com o filho direito
+      if (
+        right < size &&
+        this.compareFn(this.heap[element], this.heap[right]) < 0 // Troca para MaxHeap
+      ) {
+        element = right
+      }
+  
+      // Trocar
+      if (index !== element) {
+        this.swap(this.heap, index, element)
+        this.siftDown(element)
+      }
+    }
+  
+    insert(value) {
+      if (value != null) {
+        this.heap.push(value)
+        this.siftUp(this.heap.length - 1)
+        return true
+      }
+      return false
+    }
+  
+    // Remover o valor máximo (raiz)
+    extract() {
+      if (this.isEmpty()) {
+        return undefined
+      }
+      if (this.size() === 1) {
+        return this.heap.shift()
+      }
+  
+      const removedValue = this.heap.shift() // Remove a raiz
+      this.siftDown(0) // Reorganiza a árvore
+      return removedValue
+    }
+  
+    // Mostrar o valor máximo
+    findMaximum() {
+      return this.isEmpty() ? undefined : this.heap[0]
+    }
+  
+    size() {
+      return this.heap.length
+    }
+  
+    isEmpty() {
+      return this.size() === 0
+    }
+  
+    // Função para trocar dois elementos no array
+    swap(array, a, b) {
+      const temp = array[a]
+      array[a] = array[b]
+      array[b] = temp
+    }
+}
 
-
+export {MaxHeap}
+```
 
 #### Heap Mínimo
-No Heap Mínimo é onde os nós menores valores sempre estrão em cima
+No Heap Mínimo é onde os nós menores valores sempre estrão em cima.
+```js
+class MaxHeap {
+    constructor() {
+      this.heap = []
+    }
+  
+    getLeftIndex(index) {
+        return 2 * index + 1 // Obter o índice do filho esquerdo
+    }
+  
+    getRightIndex(index) {
+      return 2 * index + 2 // Obter o índice do filho direito
+    }
+  
+    
+    getParentIndex(index) {
+      if (index === 0) {
+        return undefined
+      }
+      return Math.floor((index - 1) / 2) // Obter o índice do pai
+    }
+  
+    compareFn(a, b) {
+      return a - b
+    }
+  
+    insert(value) {
+      if (value == null) return false
+  
+      this.heap.push(value) // Para inserir o valor novo sempre será adicionado no final da arvore
+      this.siftUp(this.heap.length - 1)
+      return true
+    }
+  
+    siftUp(index) {
+        let parent = this.getParentIndex(index)
+        
+        while (index > 0 && this.compareFn(this.heap[parent], this.heap[index]) > 0) {
+        // Se o index Menor, sobe valor
+        this.swap(this.heap, parent, index)
+        index = parent // Atualiza o índice
+        parent = this.getParentIndex(index) // Atualiza o índice do pai
+      }
+    }
+  
+    // Trocar posicoes
+    swap(array, a, b) {
+      [array[a], array[b]] = [array[b], array[a]] // Troca usando desestruturação (ES6)
+    }
+  
+    // Remover o valor mínimo
+    extract() {
+      if (this.isEmpty()) return undefined 
+  
+      if (this.size() === 1) {
+        return this.heap.shift() 
+      }
+  
+      const removedValue = this.heap.shift()
+      this.siftDown(0)
+      return removedValue
+    }
+  
+    isEmpty() {
+      return this.heap.length === 0
+    }
+  
+    size() {
+      return this.heap.length
+    }
+  
+    findMinimum() {
+      return this.isEmpty() ? undefined : this.heap[0] // Retorna a raiz ou undefined se vazio
+    }
+  
+    // Se o valor for maior desce
+    siftDown(index) {
+      let element = index
+      const left = this.getLeftIndex(index)
+      const right = this.getRightIndex(index)
+      const size = this.size()
+  
+      if (left < size && this.compareFn(this.heap[element], this.heap[left]) > 0) {
+        element = left
+      }
+  
+      
+      if (right < size && this.compareFn(this.heap[element], this.heap[right]) > 0) {
+        element = right 
+      }
+  
+      
+      if (index !== element) {
+        this.swap(this.heap, index, element) 
+        this.siftDown(element) 
+      }
+    }
+  }
+  
 
-Termo: "tanto à esquerda quanto possível". Caso contrário, os nós vão se sobrepôr."
+export {MinHeap}
+```
+"Tanto à esquerda quanto possível". Caso contrário, os nós vão se sobrepôr."
