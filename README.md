@@ -56,7 +56,7 @@ class MaxHeap {
   
     // Função para comparar os valores no heap (positivo sobe)
     compareFn(a, b) {
-      return b - a // 
+      return b - a 
     }
   
     // Após inserir o elemento precisamos comparar o elemento, se for maior sobe (siftUp)
@@ -64,7 +64,7 @@ class MaxHeap {
       let parent = this.getParentIndex(index)
       while (
         index > 0 &&
-        this.compareFn(this.heap[parent], this.heap[index]) < 0 // Troca para MaxHeap
+        this.compareFn(this.heap[parent], this.heap[index]) < 0 
       ) {
         this.swap(this.heap, parent, index)
         index = parent
@@ -82,7 +82,7 @@ class MaxHeap {
       // Comparar com o filho esquerdo
       if (
         left < size &&
-        this.compareFn(this.heap[element], this.heap[left]) < 0 // Troca para MaxHeap
+        this.compareFn(this.heap[element], this.heap[left]) < 0 
       ) {
         element = left
       }
@@ -90,7 +90,7 @@ class MaxHeap {
       // Comparar com o filho direito
       if (
         right < size &&
-        this.compareFn(this.heap[element], this.heap[right]) < 0 // Troca para MaxHeap
+        this.compareFn(this.heap[element], this.heap[right]) < 0
       ) {
         element = right
       }
@@ -121,7 +121,7 @@ class MaxHeap {
       }
   
       const removedValue = this.heap.shift() // Remove a raiz
-      this.siftDown(0) // Reorganiza a árvore
+      this.siftDown(0)
       return removedValue
     }
   
@@ -192,13 +192,13 @@ class MaxHeap {
         // Se o index Menor, sobe valor
         this.swap(this.heap, parent, index)
         index = parent // Atualiza o índice
-        parent = this.getParentIndex(index) // Atualiza o índice do pai
+        parent = this.getParentIndex(index) 
       }
     }
   
     // Trocar posicoes
     swap(array, a, b) {
-      [array[a], array[b]] = [array[b], array[a]] // Troca usando desestruturação (ES6)
+      [array[a], array[b]] = [array[b], array[a]] 
     }
   
     // Remover o valor mínimo
